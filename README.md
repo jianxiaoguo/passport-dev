@@ -1,1 +1,1 @@
-# manager
+# drycc manager

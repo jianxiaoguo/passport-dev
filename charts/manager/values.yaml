@@ -1,0 +1,52 @@
+org: "drycc"
+pull_policy: "Always"
+image_tag: "canary"
+image_registry: ""
+app_pull_policy: "Always"
+# A comma-separated list of URLs to send app release information to
+# See https://drycc.com/docs/workflow/managing-workflow/deploy-hooks
+deploy_hook_urls: ""
+# Possible values are:
+# enabled - allows for open registration
+# disabled - turns off open registration
+# admin_only - allows for registration by an admin only.
+registration_mode: "admin_only"
+# Option to disable ssl verification to connect to k8s api server
+k8s_api_verify_tls: "true"
+# Set passport deployment replicas
+replicas: 1
+# limits_cpu: "100m"
+# limits_memory: "50Mi"
+# Set passport cronjob concurrencyPolicy
+# Allow (default): The cron job allows concurrently running jobs
+# Forbid: The cron job does not allow concurrent runs; if it is time for a new job run and the previous job run hasn't finished yet, the cron job skips the new job run
+# Replace: If it is time for a new job run and the previous job run hasn't finished yet, the cron job replaces the currently running job run with a new job run
+concurrency_policy: "Replace"
+
+global:
+  # Admin email, used for each component to send email to administrator
+  email: "drycc@drycc.cc"
+  # Set the location of Workflow's PostgreSQL database
+  #
+  # Valid values are:
+  # - on-cluster: Run PostgreSQL within the Kubernetes cluster (credentials are generated
+  #   automatically; backups are sent to object storage
+  #   configured above)
+  # - off-cluster: Run PostgreSQL outside the Kubernetes cluster (configure in database section)
+  database_location: "on-cluster"
+
+  # Role-Based Access Control for Kubernetes >= 1.5
+  use_rbac: false
+  # Please check `kubernetes.io/ingress.class`
+  ingress_class: ""
+  # A domain name consists of one or more parts.
+  # Periods (.) are used to separate these parts.
+  # Each part must be 1 to 63 characters in length and can contain lowercase letters, digits, and hyphens (-).
+  # It must start and end with a lowercase letter or digit.
+  cluster_domain: "cluster.local"
+  # The public resolvable hostname to build your cluster with.
+  #
+  # This will be the hostname that is used to build endpoints such as "drycc.$HOSTNAME"
+  platform_domain: ""
+  # Whether cert_passport is enabled to automatically generate passport certificates
+  cert_passport_enabled: "true"

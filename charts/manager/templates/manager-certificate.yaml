@@ -1,0 +1,15 @@
+{{ if .Values.global.cert_passport_enabled }}
+apiVersion: cert-passport.io/v1alpha2
+kind: Certificate
+metadata:
+  name: drycc-passport
+spec:
+  secretName: drycc-passport-certificate-auto
+  issuerRef:
+    name: drycc-cluster-issuer
+    kind: ClusterIssuer
+  dnsNames:
+  - drycc.{{ .Values.global.platform_domain }}
+  privateKey:
+    rotationPolicy: Always
+{{- end }}
