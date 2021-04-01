@@ -51,11 +51,11 @@ USE_L10N = False
 
 USE_TZ = True
 
-# Manage templates
+# Passport templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -241,9 +241,8 @@ LOG_LINES = 100
 TEMPDIR = tempfile.mkdtemp(prefix='drycc')
 
 # names which apps cannot reserve for routing
-DRYCC_RESERVED_NAMES = os.environ.get('RESERVED_NAMES', '').replace(' ',
-                                                                    '').split(
-    ',')
+DRYCC_RESERVED_NAMES = os.environ.get('RESERVED_NAMES', '').\
+    replace(' ', '').split(',')
 
 # security keys and auth tokens
 random_secret = ')u_jckp95wule8#wxd8sm!0tj2j&aveozu!nnpgl)2x&&16gfj'

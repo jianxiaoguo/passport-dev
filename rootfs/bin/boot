@@ -30,7 +30,7 @@ python /app/manage.py migrate --noinput
 # spawn a gunicorn server in the background
 echo ""
 echo "Starting up Gunicorn"
-gunicorn -c /app/manage/gunicorn/config.py api.wsgi &
+gunicorn -c /app/passport/gunicorn/config.py api.wsgi &
 
 # smart shutdown on SIGTERM (SIGINT is handled by gunicorn)
 function on_exit() {
@@ -42,6 +42,6 @@ function on_exit() {
 trap on_exit TERM
 
 echo ""
-echo drycc-manage running...
+echo drycc-passport running...
 
 wait
