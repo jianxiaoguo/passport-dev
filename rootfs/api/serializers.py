@@ -5,6 +5,7 @@ import logging
 import json
 
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from rest_framework import serializers
 
 logger = logging.getLogger(__name__)
@@ -37,6 +38,12 @@ class JSONFieldSerializer(serializers.JSONField):
                 # Do nothing, the validator will catch this later
 
         return obj
+
+
+class RegisterForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        # fields = ("username", "email")
 
 
 class UserSerializer(serializers.ModelSerializer):
