@@ -49,7 +49,7 @@ class RegisterForm(UserCreationForm):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', "first_name", "last_name")
+        fields = ('id', 'username', 'email', "first_name", "last_name")
 
 
 class UserEmailSerializer(serializers.ModelSerializer):
