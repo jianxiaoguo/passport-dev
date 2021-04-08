@@ -2,37 +2,55 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+<!--{% if next %}-->
+    <!--{% if user.is_authenticated %}-->
+    <!--<p>Your account doesn't have access to this page. To proceed,-->
+    <!--please login with an account that has access.</p>-->
+    <!--{% else %}-->
+    <!--<p>Please login to see this page.</p>-->
+    <!--{% endif %}-->
+<!--{% endif %}-->
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+{% load static %}
 
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
+<link rel="stylesheet" href="{% static 'login.css' %}" type="text/css">
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<div class="page-wrap gradient-primary">
+    <div class="container">
+        <h1 class="logo"><a href="https://www.heroku.com" title="Heroku">Heroku</a></h1>
+        <div class="panel">
+            <h2 class="h3">Log in to your account</h2>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {% if form.errors %}
+                {{form.errors}}
+                <div class="alert alert-danger">There was a problem with your login.</div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="username">{{ form.username.label_tag }}</label>
+                    <div class="input-icon icon-username"></div>
+                    <input autofocus="off" class="form-control" id="username" name="username" :placeholder="Username" type="text" >
+                </div>
+                <div class="form-group">
+                    <label for="password">{{ form.password.label_tag }}</label>
+                    <div class="input-icon icon-password"></div>
+                    <input autocomplete="off" class="form-control password" id="password" name="password" :placeholder="Password" type="password"/>
+                </div>
+
+                <!--<input type="submit" value="login">-->
+                <!--<input type="hidden" name="next" value="{{ next }}">-->
+
+                <button class="btn btn-primary btn-lg btn-block" name="commit" type="submit">Log In</button>
+                <input type="hidden" name="next" value="{{ next }}">
+
+            </form>
+
+            <a class="panel-footer" href="/accounts/register"><span>Sign Up</span></a>
+
+        </div>
+        <a href="accounts/password_reset" style="margin-left: 25px;color: #fff">Forgot your password?</a>
+    </div>
+</div>
 
 {% endblock %}
