@@ -43,7 +43,7 @@ class JSONFieldSerializer(serializers.JSONField):
 class RegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        # fields = ("username", "email")
+        fields = ('username', 'email', 'password1', 'password2')
 
 
 class UserSerializer(serializers.ModelSerializer):
