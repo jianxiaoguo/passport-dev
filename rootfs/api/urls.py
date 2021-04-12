@@ -1,7 +1,6 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
 
-from django.contrib.auth import views as auth_views
 
 from api import views
 from api.views import RegisterView

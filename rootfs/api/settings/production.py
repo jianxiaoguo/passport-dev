@@ -362,10 +362,21 @@ if OAUTH_ENABLE:
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 
-EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
-EMAIL_PORT = os.environ.get('EMAIL_PORT', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
-EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', True)
+# EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+# EMAIL_PORT = os.environ.get('EMAIL_PORT', '')
+# DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
+# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+# EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
+# EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', True)
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'lijianguoY_Y@163.com'
+EMAIL_HOST_PASSWORD = 'IHVCDVHTGFHJUKRY'
+# EMAIL_USE_TLS = False
+# EMAIL_USE_SSL = False
+# EMAIL_FROM = 'lijianguoY_Y@163.com'
+DEFAULT_FROM_EMAIL = 'lijianguoY_Y@163.com'
