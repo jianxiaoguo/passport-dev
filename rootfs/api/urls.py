@@ -13,8 +13,8 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'accounts/', include('django.contrib.auth.urls')),
 
-    path(r'accounts/register/?$', RegisterView.as_view(), name='register'),
-    path(r'accounts/activate/<uidb64>/<token>/?$', ActivateAccount.as_view(), name='activate_account'),
+    url(r'accounts/register/?$', RegisterView.as_view(), name='register'),
+    url(r'accounts/activate/<uidb64>/<token>/?$', ActivateAccount.as_view(), name='activate_account'),
 
     url(r'oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
