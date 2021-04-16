@@ -107,7 +107,7 @@ def index(request):
 class UserDetailView(NormalUserViewSet):
     serializer_class = serializers.UserSerializer
     permission_classes = [IsAuthenticated, TokenHasScope]
-    required_scopes = ['profile']
+    required_scopes = ['openid']
 
     def get_object(self):
         return self.request.user
@@ -116,7 +116,7 @@ class UserDetailView(NormalUserViewSet):
 class UserEmailView(NormalUserViewSet):
     serializer_class = serializers.UserEmailSerializer
     permission_classes = [IsAuthenticated, TokenHasScope]
-    required_scopes = ['profile']
+    required_scopes = ['openid']
 
     def get_object(self):
         return self.request.user
