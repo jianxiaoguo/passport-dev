@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
@@ -10,11 +11,9 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import View
 from django.views.generic.edit import CreateView
-from oauth2_provider.contrib.rest_framework import TokenHasScope
-from rest_framework.permissions import IsAuthenticated
 
 from api import serializers
-from api.exceptions import ServiceUnavailable
+from api.exceptions import ServiceUnavailable, DryccException
 from api.serializers import RegisterForm
 from api.utils import account_activation_token, get_local_host
 from api.viewset import NormalUserViewSet
@@ -57,6 +56,8 @@ class RegisterView(CreateView):
     template_name = 'registration/register.html'
 
     def post(self, request, *args, **kwargs):
+        if settings.LDAP_ENDPOINT:
+            raise DryccException("You cannot register user when ldap is enabled.")
         form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -106,8 +107,7 @@ def index(request):
 
 class UserDetailView(NormalUserViewSet):
     serializer_class = serializers.UserSerializer
-    permission_classes = [IsAuthenticated, TokenHasScope]
-    required_scopes = ['profile']
+    required_scopes = ['openid']
 
     def get_object(self):
         return self.request.user
@@ -115,8 +115,7 @@ class UserDetailView(NormalUserViewSet):
 
 class UserEmailView(NormalUserViewSet):
     serializer_class = serializers.UserEmailSerializer
-    permission_classes = [IsAuthenticated, TokenHasScope]
-    required_scopes = ['profile']
+    required_scopes = ['openid']
 
     def get_object(self):
         return self.request.user
