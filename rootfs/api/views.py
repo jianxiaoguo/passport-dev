@@ -62,6 +62,7 @@ class RegisterView(CreateView):
         self.object = None
         if form.is_valid():
             user = form.save(commit=False)
+            user.is_staff = False
             user.is_active = False
             user.save()
             domain = get_local_host(request)
