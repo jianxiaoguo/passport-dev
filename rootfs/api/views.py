@@ -108,10 +108,6 @@ def index(request):
 
 class UserDetailView(NormalUserViewSet):
     serializer_class = serializers.UserSerializer
-<<<<<<< HEAD
-    permission_classes = [IsAuthenticated, TokenHasScope]
-=======
->>>>>>> e1e7a9308576dfc0f30ca407b5790d65b0c7dc40
     required_scopes = ['openid']
 
     def get_object(self):
@@ -120,10 +116,6 @@ class UserDetailView(NormalUserViewSet):
 
 class UserEmailView(NormalUserViewSet):
     serializer_class = serializers.UserEmailSerializer
-<<<<<<< HEAD
-    permission_classes = [IsAuthenticated, TokenHasScope]
-=======
->>>>>>> e1e7a9308576dfc0f30ca407b5790d65b0c7dc40
     required_scopes = ['openid']
 
     def get_object(self):
