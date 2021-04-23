@@ -11,6 +11,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import View
 from django.views.generic.edit import CreateView
+from django.utils.translation import gettext_lazy as _
+from django.views.generic.base import TemplateView
 
 from api import serializers
 from api.exceptions import ServiceUnavailable, DryccException
@@ -79,6 +81,12 @@ class RegisterView(CreateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class RegisterDoneView(TemplateView):
+    template_name = 'registration/register_done.html'
+    title = _('Password reset sent')
+
 
 
 class ActivateAccount(View):
