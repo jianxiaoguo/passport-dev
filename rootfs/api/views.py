@@ -86,8 +86,7 @@ class RegisterView(CreateView):
 
 class RegisterDoneView(TemplateView):
     template_name = 'registration/register_done.html'
-    title = _('Password reset sent')
-
+    title = _('Activate email sent')
 
 
 class ActivateAccount(View):
@@ -104,11 +103,21 @@ class ActivateAccount(View):
             user.save()
             login(request, user)
             messages.success(request, 'Your account have been confirmed.')
-            return redirect('/')
+            return redirect('/accounts/activate/done/')
         else:
             messages.warning(request, (
                 'The confirmation link was invalid, possibly because it has already been used.'))  # noqa
-            return redirect('/')
+            return redirect('/accounts/activate/fail/')
+
+
+class ActivateAccountDoneView(TemplateView):
+    template_name = 'registration/account_activation_done.html'
+    title = _('Activate account done')
+
+
+class ActivateAccountFailView(TemplateView):
+    template_name = 'registration/account_activation_fail.html'
+    title = _('Activate account fail')
 
 
 def index(request):

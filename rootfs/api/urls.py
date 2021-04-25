@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 
 
 from api import views
-from api.views import RegisterView, ActivateAccount, RegisterDoneView
+from api.views import RegisterView, ActivateAccount, RegisterDoneView, ActivateAccountDoneView, ActivateAccountFailView
 
 router = DefaultRouter(trailing_slash=False)
 
@@ -16,6 +16,8 @@ urlpatterns = [
     re_path(r'accounts/register/?$', RegisterView.as_view(), name='register'),
     re_path(r'accounts/activate/<uidb64>/<token>/?$', ActivateAccount.as_view(), name='activate_account'),
     re_path(r'accounts/register/done/?$', RegisterDoneView.as_view(), name='register_done'),
+    re_path(r'accounts/activate/done/?$', ActivateAccountDoneView.as_view(), name='activate_account_done'),
+    re_path(r'accounts/activate/fail/?$', ActivateAccountFailView.as_view(), name='activate_account_done'),
 
     re_path(r'oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
