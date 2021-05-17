@@ -14,7 +14,7 @@ urlpatterns = [
     re_path(r'accounts/', include('django.contrib.auth.urls')),
 
     re_path(r'accounts/register/?$', RegisterView.as_view(), name='register'),
-    re_path(r'accounts/activate/<uidb64>/<token>/?$', ActivateAccount.as_view(), name='activate_account'),
+    re_path(r'accounts/activate/(?P<uidb64>.+)/(?P<token>.+)/?$', ActivateAccount.as_view(), name='activate_account'),
     re_path(r'accounts/register/done/?$', RegisterDoneView.as_view(), name='register_done'),
     re_path(r'accounts/activate/done/?$', ActivateAccountDoneView.as_view(), name='activate_account_done'),
     re_path(r'accounts/activate/fail/?$', ActivateAccountFailView.as_view(), name='activate_account_done'),

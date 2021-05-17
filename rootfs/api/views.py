@@ -13,6 +13,7 @@ from django.views.generic import View
 from django.views.generic.edit import CreateView
 from django.utils.translation import gettext_lazy as _
 from django.views.generic.base import TemplateView
+from django.urls import reverse_lazy
 
 from api import serializers
 from api.exceptions import ServiceUnavailable, DryccException
@@ -56,6 +57,7 @@ class LivenessCheckView(View):
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'registration/register.html'
+    success_url = reverse_lazy('register_done')
 
     def post(self, request, *args, **kwargs):
         if settings.LDAP_ENDPOINT:
@@ -97,11 +99,13 @@ class ActivateAccount(View):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
-        if user is not None and account_activation_token.check_token(user,
-                                                                     token):  # noqa
+        if user is not None and account_activation_token.check_token(
+                user, token):
             user.is_active = True
+            user.is_staff = True
             user.save()
-            login(request, user)
+            # login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Your account have been confirmed.')
             return redirect('/accounts/activate/done/')
         else:
@@ -121,7 +125,7 @@ class ActivateAccountFailView(TemplateView):
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'registration/login.html')
 
 
 class UserDetailView(NormalUserViewSet):
