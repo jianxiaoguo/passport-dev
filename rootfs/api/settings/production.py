@@ -115,6 +115,7 @@ AUTHENTICATION_BACKENDS = (
 
 ANONYMOUS_USER_ID = -1
 LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/admin/'
 
 # Security settings
 CORS_ORIGIN_ALLOW_ALL = True
