@@ -118,15 +118,30 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/admin/'
 
 # Security settings
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
 CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
     'content-type',
     'accept',
     'origin',
     'Authorization',
     'Host',
+    'user-agent',
+    'x-csrftoken',
+    'DRYCC_API_VERSION',
+    'DRYCC_PLATFORM_VERSION',
 )
-
 CORS_EXPOSE_HEADERS = (
     'DRYCC_API_VERSION',
     'DRYCC_PLATFORM_VERSION',
@@ -135,7 +150,8 @@ CORS_EXPOSE_HEADERS = (
 X_FRAME_OPTIONS = 'DENY'
 # todo debug oauth2
 # CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = None
 # SESSION_COOKIE_SECURE = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
