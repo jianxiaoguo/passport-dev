@@ -14,13 +14,6 @@ rbac.authorization.k8s.io/v1
 {{/* Generate passport deployment envs */}}
 {{- define "passport.envs" -}}
 env:
-# Environmental variable value for $INGRESS_CLASS
-- name: "DRYCC_INGRESS_CLASS"
-  value: "{{ .Values.global.ingress_class }}"
-- name: "K8S_API_VERIFY_TLS"
-  value: "{{ .Values.k8s_api_verify_tls }}"
-- name: "KUBERNETES_CLUSTER_DOMAIN"
-  value: "{{ .Values.global.cluster_domain }}"
 - name: "TZ"
   value: {{ .Values.time_zone | default "UTC" | quote }}
 {{- if eq .Values.global.database_location "off-cluster" }}

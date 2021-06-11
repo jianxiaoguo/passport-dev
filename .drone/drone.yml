@@ -153,9 +153,9 @@ steps:
   image: docker.io/drycc/python-dev
   commands:
   - IMAGE_TAG=$([ ! -z $DRONE_TAG ] && echo \"${DRONE_TAG:1}\" || echo \"canary\")
-  - sed -i "s/image_tag:\ \"canary\"/image_tag:\ $IMAGE_TAG/g" charts/passprt/values.yaml
-  - helm package charts/passprt --version ${DRONE_TAG:-v1.0.0}
-  - curl -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD -F chart=@passprt-${DRONE_TAG:-v1.0.0}.tgz "$CHARTMUSEUM_API/api/$([ -z $DRONE_TAG ] && echo testing || echo stable)/charts"
+  - sed -i "s/image_tag:\ \"canary\"/image_tag:\ $IMAGE_TAG/g" charts/passport/values.yaml
+  - helm package charts/passport --version ${DRONE_TAG:-v1.0.0}
+  - curl -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD -F chart=@passport-${DRONE_TAG:-v1.0.0}.tgz "$CHARTMUSEUM_API/api/$([ -z $DRONE_TAG ] && echo testing || echo stable)/charts"
   environment:
     CHARTMUSEUM_USERNAME:
       from_secret: chartmuseum_username
