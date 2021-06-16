@@ -2,12 +2,16 @@ FROM docker.io/library/python:3.9-alpine
 
 COPY requirements.txt /app/requirements.txt
 
-RUN apk add --update --virtual .build-deps \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+  && apk add --update --virtual .build-deps \
     postgresql-dev \
     gcc \
     libffi-dev \
     musl-dev \
     openldap-dev \
+    openssl-dev \
+    cargo \
+    rust \
   && pip3 install --disable-pip-version-check --no-cache-dir -r /app/requirements.txt \
   && runDeps="$( \
     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
