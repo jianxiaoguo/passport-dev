@@ -1,4 +1,5 @@
-{{ if .Values.global.cert_passport_enabled }}
+{{- if eq .Values.global.passport_location "on-cluster" }}
+{{- if .Values.global.cert_passport_enabled }}
 apiVersion: cert-passport.io/v1alpha2
 kind: Certificate
 metadata:
@@ -12,4 +13,5 @@ spec:
   - drycc-passport.{{ .Values.global.platform_domain }}
   privateKey:
     rotationPolicy: Always
+{{- end }}
 {{- end }}

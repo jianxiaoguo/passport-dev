@@ -1,3 +1,4 @@
+{{- if eq .Values.global.passport_location "on-cluster" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,3 +45,4 @@ spec:
               name: http
           {{- include "passport.limits" . | indent 10 }}
           {{- include "passport.envs" . | indent 10 }}
+{{- end }}

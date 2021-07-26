@@ -16,12 +16,12 @@ rbac.authorization.k8s.io/v1
 env:
 - name: "TZ"
   value: {{ .Values.time_zone | default "UTC" | quote }}
-{{- if eq .Values.global.database_location "off-cluster" }}
+{{- if (.Values.database_url) }}
 - name: DRYCC_DATABASE_URL
   valueFrom:
     secretKeyRef:
-      name: database-creds
-      key: passport_db_url
+      name: passport-creds
+      key: database_url
 {{- else if eq .Values.global.database_location "on-cluster"  }}
 - name: DRYCC_DATABASE_USER
   valueFrom:

@@ -12,35 +12,6 @@ from oauth2_provider.oauth2_validators import OAuth2Validator
 logger = logging.getLogger(__name__)
 
 
-class JSONFieldSerializer(serializers.JSONField):
-    def __init__(self, *args, **kwargs):
-        self.convert_to_str = kwargs.pop('convert_to_str', True)
-        super(JSONFieldSerializer, self).__init__(*args, **kwargs)
-
-    def to_internal_value(self, data):
-        """Deserialize the field's JSON data, for write operations."""
-        try:
-            val = json.loads(data)
-        except TypeError:
-            val = data
-        return val
-
-    def to_representation(self, obj):
-        """Serialize the field's JSON data, for read operations."""
-        for k, v in obj.items():
-            if v is None:  # NoneType is used to unset a value
-                continue
-
-            try:
-                if self.convert_to_str:
-                    obj[k] = str(v)
-            except ValueError:
-                obj[k] = v
-                # Do nothing, the validator will catch this later
-
-        return obj
-
-
 class RegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User

@@ -22,6 +22,33 @@ replicas: 1
 # Forbid: The cron job does not allow concurrent runs; if it is time for a new job run and the previous job run hasn't finished yet, the cron job skips the new job run
 # Replace: If it is time for a new job run and the previous job run hasn't finished yet, the cron job replaces the currently running job run with a new job run
 concurrency_policy: "Replace"
+# Configuring this will no longer use the built-in database component
+database_url: ""
+# Any custom controller environment variables
+# can be specified as key-value pairs under environment
+# this is usually a non required setting.
+environment:
+  RESERVED_NAMES: "drycc, drycc-builder, drycc-monitor-grafana"
+## LDAP setting
+#  LDAP_ENDPOINT: ""
+#  LDAP_BIND_DN: ""
+#  LDAP_BIND_PASSWORD: ""
+#  LDAP_USER_BASEDN: ""
+#  LDAP_USER_FILTER: ""
+#  LDAP_GROUP_BASEDN: ""
+#  LDAP_GROUP_FILTER: ""
+#  LDAP_ACTIVE_GROUP: ""
+#  LDAP_STAFF_GROUP: ""
+#  LDAP_SUPERUSER_GROUP:  ""
+## EAMIL setting
+# EMAIL_HOST: ""
+# EMAIL_PORT: ""
+# DEFAULT_FROM_EMAIL: ""
+# EMAIL_HOST_USER: ""
+# EMAIL_HOST_PASSWORD: ""
+# EMAIL_USE_TLS: ""
+# EMAIL_USE_SSL: ""
+# DEFAULT_FROM_EMAIL: ""
 
 global:
   # Admin email, used for each component to send email to administrator
@@ -50,3 +77,4 @@ global:
   platform_domain: ""
   # Whether cert_passport is enabled to automatically generate passport certificates
   cert_passport_enabled: "true"
+  passport_location: "on-cluster"

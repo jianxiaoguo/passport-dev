@@ -264,7 +264,6 @@ DRYCC_RESERVED_NAMES = os.environ.get('RESERVED_NAMES', '').\
 # security keys and auth tokens
 random_secret = ')u_jckp95wule8#wxd8sm!0tj2j&aveozu!nnpgl)2x&&16gfj'
 SECRET_KEY = os.environ.get('DRYCC_SECRET_KEY', random_secret)
-BUILDER_KEY = os.environ.get('DRYCC_BUILDER_KEY', random_secret)
 
 # database setting
 # todo debug test
@@ -292,6 +291,7 @@ DRYCC_REDIS_PASSWORD = os.environ.get('DRYCC_REDIS_PASSWORD', '')
 #         }
 #     }
 # }
+# TODO DEBUG
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
