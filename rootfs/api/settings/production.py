@@ -266,10 +266,7 @@ random_secret = ')u_jckp95wule8#wxd8sm!0tj2j&aveozu!nnpgl)2x&&16gfj'
 SECRET_KEY = os.environ.get('DRYCC_SECRET_KEY', random_secret)
 
 # database setting
-# todo debug test
-DRYCC_DATABASE_URL = os.environ.get('DRYCC_DATABASE_URL',
-                                    'postgres://postgres:123456@192.168.6.50:5432/drycc_passport')
-# DRYCC_DATABASE_URL = os.environ.get('DRYCC_DATABASE_URL', 'postgres://:@:5432/passport')
+DRYCC_DATABASE_URL = os.environ.get('DRYCC_DATABASE_URL', 'postgres://:@:5432/passport')
 DATABASES = {
     'default': dj_database_url.config(default=DRYCC_DATABASE_URL,
                                       conn_max_age=600)
@@ -281,21 +278,14 @@ DRYCC_REDIS_ADDRS = os.environ.get('DRYCC_REDIS_ADDRS', '127.0.0.1:6379').split(
 DRYCC_REDIS_PASSWORD = os.environ.get('DRYCC_REDIS_PASSWORD', '')
 
 # Cache Configuration
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": ['redis://:{}@{}'.format(DRYCC_REDIS_PASSWORD, DRYCC_REDIS_ADDR) \
-#                      for DRYCC_REDIS_ADDR in DRYCC_REDIS_ADDRS],  # noqa
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.ShardClient",
-#         }
-#     }
-# }
-# TODO DEBUG
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/tmp/django_cache',
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": ['redis://:{}@{}'.format(DRYCC_REDIS_PASSWORD, DRYCC_REDIS_ADDR) \
+                     for DRYCC_REDIS_ADDR in DRYCC_REDIS_ADDRS],  # noqa
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.ShardClient",
+        }
     }
 }
 
@@ -359,48 +349,35 @@ if LDAP_ENDPOINT:
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 
-OAUTH_ENABLE = bool(os.environ.get('OAUTH_ENABLE', True))
-if OAUTH_ENABLE:
-    with open('oidc.key') as f:
-        OIDC_RSA_PRIVATE_KEY = f.read()
-    OAUTH2_PROVIDER = {
-        "OIDC_ENABLED": True,
-        "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
-        "OAUTH2_VALIDATOR_CLASS": "api.serializers.CustomOAuth2Validator",
-        "PKCE_REQUIRED": False,
-        "ALLOWED_REDIRECT_URI_SCHEMES": ["http", "https"],
-        "ACCESS_TOKEN_EXPIRE_SECONDS": 30 * 86400,
-        "ID_TOKEN_EXPIRE_SECONDS": 30 * 86400,
-        "AUTHORIZATION_CODE_EXPIRE_SECONDS": 600,
-        "CLIENT_SECRET_GENERATOR_LENGTH": 64,
-        "REFRESH_TOKEN_EXPIRE_SECONDS": 60 * 86400,
-        "ROTATE_REFRESH_TOKEN": True,
-        "SCOPES": {
-            "profile": "Profile",
-            "openid": "OpenID Connect scope",
-        },
-        "DEFAULT_SCOPES": ['openid', ],
-        "DEFAULT_CODE_CHALLENGE_METHOD": 'S256',
-    }
-    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    )
+with open('oidc.key') as f:
+    OIDC_RSA_PRIVATE_KEY = f.read()
+OAUTH2_PROVIDER = {
+    "OIDC_ENABLED": True,
+    "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
+    "OAUTH2_VALIDATOR_CLASS": "api.serializers.CustomOAuth2Validator",
+    "PKCE_REQUIRED": False,
+    "ALLOWED_REDIRECT_URI_SCHEMES": ["http", "https"],
+    "ACCESS_TOKEN_EXPIRE_SECONDS": 30 * 86400,
+    "ID_TOKEN_EXPIRE_SECONDS": 30 * 86400,
+    "AUTHORIZATION_CODE_EXPIRE_SECONDS": 600,
+    "CLIENT_SECRET_GENERATOR_LENGTH": 64,
+    "REFRESH_TOKEN_EXPIRE_SECONDS": 60 * 86400,
+    "ROTATE_REFRESH_TOKEN": True,
+    "SCOPES": {
+        "profile": "Profile",
+        "openid": "OpenID Connect scope",
+    },
+    "DEFAULT_SCOPES": ['openid', ],
+    "DEFAULT_CODE_CHALLENGE_METHOD": 'S256',
+}
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
+    'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+)
 
-# EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
-# EMAIL_PORT = os.environ.get('EMAIL_PORT', '')
-# DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-# EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
-# EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', True)
-
-
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.163.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'lijianguoY_Y@163.com'
-EMAIL_HOST_PASSWORD = 'IHVCDVHTGFHJUKRY'
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = False
-# EMAIL_FROM = 'lijianguoY_Y@163.com'
-DEFAULT_FROM_EMAIL = 'lijianguoY_Y@163.com'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', '')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', True)
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', True)
