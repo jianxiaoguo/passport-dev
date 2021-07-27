@@ -349,7 +349,8 @@ if LDAP_ENDPOINT:
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 
-with open('oidc.key') as f:
+# see: https://django-oauth-toolkit.readthedocs.io/en/latest/oidc.html?highlight=oidc.key#creating-rsa-private-key
+with open('/etc/oidc.key') as f:
     OIDC_RSA_PRIVATE_KEY = f.read()
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
@@ -357,11 +358,11 @@ OAUTH2_PROVIDER = {
     "OAUTH2_VALIDATOR_CLASS": "api.serializers.CustomOAuth2Validator",
     "PKCE_REQUIRED": False,
     "ALLOWED_REDIRECT_URI_SCHEMES": ["http", "https"],
-    "ACCESS_TOKEN_EXPIRE_SECONDS": 30 * 86400,
-    "ID_TOKEN_EXPIRE_SECONDS": 30 * 86400,
-    "AUTHORIZATION_CODE_EXPIRE_SECONDS": 600,
-    "CLIENT_SECRET_GENERATOR_LENGTH": 64,
-    "REFRESH_TOKEN_EXPIRE_SECONDS": 60 * 86400,
+    "ACCESS_TOKEN_EXPIRE_SECONDS": int(os.environ.get('ACCESS_TOKEN_EXPIRE_SECONDS', 30 * 86400)),
+    "ID_TOKEN_EXPIRE_SECONDS": int(os.environ.get('ID_TOKEN_EXPIRE_SECONDS', 30 * 86400)),
+    "AUTHORIZATION_CODE_EXPIRE_SECONDS": int(os.environ.get('AUTHORIZATION_CODE_EXPIRE_SECONDS', 600)),
+    "CLIENT_SECRET_GENERATOR_LENGTH": int(os.environ.get('CLIENT_SECRET_GENERATOR_LENGTH', 64)),
+    "REFRESH_TOKEN_EXPIRE_SECONDS": int(os.environ.get('REFRESH_TOKEN_EXPIRE_SECONDS', 60 * 86400)),
     "ROTATE_REFRESH_TOKEN": True,
     "SCOPES": {
         "profile": "Profile",

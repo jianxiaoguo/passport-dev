@@ -51,6 +51,21 @@ env:
 {{- end }}
 {{- end }}
 
+{{/* Generate passport deployment volumeMounts */}}
+{{- define "passport.volumeMounts" }}
+volumeMounts:
+  - mountPath: /etc/oidc.key
+    name: oidc-key
+    readOnly: true
+{{- end }}
+
+{{/* Generate passport deployment volumes */}}
+{{- define "passport.volumes" }}
+volumes:
+  - name: oidc-key
+    secret:
+      secretName: oidc-key
+{{- end }}
 
 {{/* Generate passport deployment limits */}}
 {{- define "passport.limits" -}}
