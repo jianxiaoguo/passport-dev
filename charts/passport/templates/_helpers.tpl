@@ -16,6 +16,18 @@ rbac.authorization.k8s.io/v1
 env:
 - name: "TZ"
   value: {{ .Values.time_zone | default "UTC" | quote }}
+- name: "DRYCC_CONTROLLER_DOMAIN"
+  value: drycc.{{ .Values.global.platform_domain }}
+- name: SOCIAL_AUTH_DRYCC_CONTROLLER_KEY
+  valueFrom:
+    secretKeyRef:
+      name: passport-creds
+      key: social-auth-drycc-controller-key
+- name: SOCIAL_AUTH_DRYCC_CONTROLLER_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: passport-creds
+      key: social-auth-drycc-controller-secret
 {{- if (.Values.database_url) }}
 - name: DRYCC_DATABASE_URL
   valueFrom:
@@ -37,7 +49,7 @@ env:
   valueFrom:
     secretKeyRef:
       name: database-creds
-      key: passport_db_name
+      key: passport-database-name
 - name: DRYCC_DATABASE_URL
   value: "postgres://$(DRYCC_DATABASE_USER):$(DRYCC_DATABASE_PASSWORD)@$(DRYCC_DATABASE_SERVICE_HOST):$(DRYCC_DATABASE_SERVICE_PORT)/$(DRYCC_DATABASE_NAME)"
 {{- end }}

@@ -359,32 +359,30 @@ if LDAP_ENDPOINT:
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 
-OAUTH_ENABLE = bool(os.environ.get('OAUTH_ENABLE', True))
-if OAUTH_ENABLE:
-    with open('oidc.key') as f:
-        OIDC_RSA_PRIVATE_KEY = f.read()
-    OAUTH2_PROVIDER = {
-        "OIDC_ENABLED": True,
-        "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
-        "OAUTH2_VALIDATOR_CLASS": "api.serializers.CustomOAuth2Validator",
-        "PKCE_REQUIRED": False,
-        "ALLOWED_REDIRECT_URI_SCHEMES": ["http", "https"],
-        "ACCESS_TOKEN_EXPIRE_SECONDS": 30 * 86400,
-        "ID_TOKEN_EXPIRE_SECONDS": 30 * 86400,
-        "AUTHORIZATION_CODE_EXPIRE_SECONDS": 600,
-        "CLIENT_SECRET_GENERATOR_LENGTH": 64,
-        "REFRESH_TOKEN_EXPIRE_SECONDS": 60 * 86400,
-        "ROTATE_REFRESH_TOKEN": True,
-        "SCOPES": {
-            "profile": "Profile",
-            "openid": "OpenID Connect scope",
-        },
-        "DEFAULT_SCOPES": ['openid', ],
-        "DEFAULT_CODE_CHALLENGE_METHOD": 'S256',
-    }
-    REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    )
+with open('oidc.key') as f:
+    OIDC_RSA_PRIVATE_KEY = f.read()
+OAUTH2_PROVIDER = {
+    "OIDC_ENABLED": True,
+    "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
+    "OAUTH2_VALIDATOR_CLASS": "api.serializers.CustomOAuth2Validator",
+    "PKCE_REQUIRED": False,
+    "ALLOWED_REDIRECT_URI_SCHEMES": ["http", "https"],
+    "ACCESS_TOKEN_EXPIRE_SECONDS": 30 * 86400,
+    "ID_TOKEN_EXPIRE_SECONDS": 30 * 86400,
+    "AUTHORIZATION_CODE_EXPIRE_SECONDS": 600,
+    "CLIENT_SECRET_GENERATOR_LENGTH": 64,
+    "REFRESH_TOKEN_EXPIRE_SECONDS": 60 * 86400,
+    "ROTATE_REFRESH_TOKEN": True,
+    "SCOPES": {
+        "profile": "Profile",
+        "openid": "OpenID Connect scope",
+    },
+    "DEFAULT_SCOPES": ['openid', ],
+    "DEFAULT_CODE_CHALLENGE_METHOD": 'S256',
+}
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
+    'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+)
 
 # EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 # EMAIL_PORT = os.environ.get('EMAIL_PORT', '')
