@@ -142,3 +142,6 @@ class UserEmailView(NormalUserViewSet):
 
     def get_object(self):
         return self.request.user
+
+class LoginDoneView(TemplateView):
+    template_name = 'registration/Heroku_Login.html'
