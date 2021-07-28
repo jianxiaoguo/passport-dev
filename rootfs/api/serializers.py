@@ -36,6 +36,7 @@ class CustomOAuth2Validator(OAuth2Validator):
     def get_additional_claims(self, request):
         claims = super().get_additional_claims(request)
         claims["id"] = request.user.id
+        claims["name"] = request.user.username
         claims["username"] = request.user.username
         claims["email"] = request.user.email
         claims["first_name"] = request.user.first_name
