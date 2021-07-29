@@ -45,4 +45,6 @@ spec:
               name: http
           {{- include "passport.limits" . | indent 10 }}
           {{- include "passport.envs" . | indent 10 }}
+          {{- include "passport.volumeMounts" . | indent 10 }}
+      {{- include "passport.volumes" . | indent 6 }}
 {{- end }}

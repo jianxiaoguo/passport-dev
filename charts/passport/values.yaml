@@ -2,27 +2,11 @@ org: "drycc"
 pull_policy: "Always"
 image_tag: "canary"
 image_registry: ""
-app_pull_policy: "Always"
-# A comma-separated list of URLs to send app release information to
-# See https://drycc.com/docs/workflow/managing-workflow/deploy-hooks
-deploy_hook_urls: ""
-# Possible values are:
-# enabled - allows for open registration
-# disabled - turns off open registration
-# admin_only - allows for registration by an admin only.
-registration_mode: "admin_only"
-# Option to disable ssl verification to connect to k8s api server
-k8s_api_verify_tls: "true"
 # Set passport deployment replicas
 replicas: 1
 # limits_cpu: "100m"
 # limits_memory: "50Mi"
-# Set passport cronjob concurrencyPolicy
-# Allow (default): The cron job allows concurrently running jobs
-# Forbid: The cron job does not allow concurrent runs; if it is time for a new job run and the previous job run hasn't finished yet, the cron job skips the new job run
-# Replace: If it is time for a new job run and the previous job run hasn't finished yet, the cron job replaces the currently running job run with a new job run
-concurrency_policy: "Replace"
-# Configuring this will no longer use the built-in database component
+## Configuring this will no longer use the built-in database component
 database_url: ""
 # Any custom controller environment variables
 # can be specified as key-value pairs under environment
@@ -40,21 +24,25 @@ environment:
 #  LDAP_ACTIVE_GROUP: ""
 #  LDAP_STAFF_GROUP: ""
 #  LDAP_SUPERUSER_GROUP:  ""
+## OATUH2 setting
+#  ACCESS_TOKEN_EXPIRE_SECONDS: 2592000
+#  ID_TOKEN_EXPIRE_SECONDS: 2592000
+#  AUTHORIZATION_CODE_EXPIRE_SECONDS: 600
+#  CLIENT_SECRET_GENERATOR_LENGTH: 64
+#  REFRESH_TOKEN_EXPIRE_SECONDS: 5184000
 ## EAMIL setting
-# EMAIL_HOST: ""
-# EMAIL_PORT: ""
-# DEFAULT_FROM_EMAIL: ""
-# EMAIL_HOST_USER: ""
-# EMAIL_HOST_PASSWORD: ""
-# EMAIL_USE_TLS: ""
-# EMAIL_USE_SSL: ""
-# DEFAULT_FROM_EMAIL: ""
-
+#  EMAIL_HOST: ""
+#  EMAIL_PORT: ""
+#  DEFAULT_FROM_EMAIL: ""
+#  EMAIL_HOST_USER: ""
+#  EMAIL_HOST_PASSWORD: ""
+#  EMAIL_USE_TLS: ""
+#  EMAIL_USE_SSL: ""
+#  DEFAULT_FROM_EMAIL: ""
 # Used to create Django admin users
 admin_username: "admin"
 admin_password: "admin"
 admin_email: "admin@email.com"
-
 
 global:
   # Admin email, used for each component to send email to administrator

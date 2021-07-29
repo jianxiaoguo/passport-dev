@@ -33,7 +33,7 @@ env:
   valueFrom:
     secretKeyRef:
       name: passport-creds
-      key: database_url
+      key: database-url
 {{- else if eq .Values.global.database_location "on-cluster"  }}
 - name: DRYCC_DATABASE_USER
   valueFrom:
@@ -76,4 +76,22 @@ resources:
     memory: {{.Values.limits_memory}}
 {{- end }}
 {{- end }}
+{{- end }}
+
+
+{{/* Generate passport deployment volumeMounts */}}
+{{- define "passport.volumeMounts" }}
+volumeMounts:
+  - name: passport-creds
+    mountPath: /var/run/secrets/drycc/passport
+    readOnly: true
+{{- end }}
+
+
+{{/* Generate passport deployment volumes */}}
+{{- define "passport.volumes" }}
+volumes:
+  - name: passport-creds
+    secret:
+      secretName: passport-creds
 {{- end }}
