@@ -28,11 +28,6 @@ env:
     secretKeyRef:
       name: passport-creds
       key: social-auth-drycc-controller-secret
-- name: OIDC_RSA_PRIVATE_KEY
-  valueFrom:
-    secretKeyRef:
-      name: passport-creds
-      key: odic-rsa-private-key
 {{- if (.Values.database_url) }}
 - name: DRYCC_DATABASE_URL
   valueFrom:
@@ -54,7 +49,7 @@ env:
   valueFrom:
     secretKeyRef:
       name: database-creds
-      key: passport_db_name
+      key: passport-database-name
 - name: DRYCC_DATABASE_URL
   value: "postgres://$(DRYCC_DATABASE_USER):$(DRYCC_DATABASE_PASSWORD)@$(DRYCC_DATABASE_SERVICE_HOST):$(DRYCC_DATABASE_SERVICE_PORT)/$(DRYCC_DATABASE_NAME)"
 {{- end }}
@@ -68,21 +63,6 @@ env:
 {{- end }}
 {{- end }}
 
-{{/* Generate passport deployment volumeMounts */}}
-{{- define "passport.volumeMounts" }}
-volumeMounts:
-  - mountPath: /etc/oidc.key
-    name: oidc-key
-    readOnly: true
-{{- end }}
-
-{{/* Generate passport deployment volumes */}}
-{{- define "passport.volumes" }}
-volumes:
-  - name: oidc-key
-    secret:
-      secretName: oidc-key
-{{- end }}
 
 {{/* Generate passport deployment limits */}}
 {{- define "passport.limits" -}}
@@ -96,4 +76,22 @@ resources:
     memory: {{.Values.limits_memory}}
 {{- end }}
 {{- end }}
+{{- end }}
+
+
+{{/* Generate passport deployment volumeMounts */}}
+{{- define "passport.volumeMounts" }}
+volumeMounts:
+  - name: passport-creds
+    mountPath: /var/run/secrets/drycc/passport
+    readOnly: true
+{{- end }}
+
+
+{{/* Generate passport deployment volumes */}}
+{{- define "passport.volumes" }}
+volumes:
+  - name: passport-creds
+    secret:
+      secretName: passport-creds
 {{- end }}

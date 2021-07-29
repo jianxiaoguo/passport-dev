@@ -13,15 +13,3 @@ We welcome your input! If you have feedback, please [submit an issue][issues]. I
 
 The Passport is the Oauth2.0 API server for [Drycc Workflow][workflow].
 
-# Before Installation
-
-Creating a oidc.key in you location.
-How and What's the use.
-see: https://django-oauth-toolkit.readthedocs.io/en/latest/oidc.html?highlight=oidc.key#creating-rsa-private-key
-
-## In kubernetes create secret oidc-key.
-kubectl create ns drycc
-kubectl create secret generic oidc-key --from-file=oidc.key -n drycc
-
-## In docker, we need mount oidc.key to /etc/oidc.key
-eg: docker run --rm -v oidc.key:/etc/oidc.key docker.io/drycc/passport:canary

@@ -10,10 +10,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         client_id = base64.b64decode(os.environ.get(
-            'SOCIAL_AUTH_DRYCC_CONTROLLER_KEY')).decode() if os.environ.get(
+            'SOCIAL_AUTH_DRYCC_CONTROLLER_KEY')) if os.environ.get(
             'SOCIAL_AUTH_DRYCC_CONTROLLER_KEY') else None
         client_secret = base64.b64decode(os.environ.get(
-            'SOCIAL_AUTH_DRYCC_CONTROLLER_SECRET')).decode() if os.environ.get(
+            'SOCIAL_AUTH_DRYCC_CONTROLLER_SECRET')) if os.environ.get(
             'SOCIAL_AUTH_DRYCC_CONTROLLER_SECRET') else None
         controller_domain = os.environ.get('DRYCC_CONTROLLER_DOMAIN')
         if not all([client_id, client_secret, controller_domain]):

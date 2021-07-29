@@ -3,7 +3,8 @@ from django.urls import re_path
 from rest_framework.routers import DefaultRouter
 
 from api import views
-from api.views import RegisterView, ActivateAccount, RegisterDoneView, ActivateAccountDoneView, ActivateAccountFailView
+from api.views import RegisterView, ActivateAccount, RegisterDoneView, \
+    ActivateAccountDoneView, ActivateAccountFailView, LoginDoneView
 
 router = DefaultRouter(trailing_slash=False)
 
@@ -23,4 +24,5 @@ urlpatterns = [
     re_path(r'users/?$', views.UserDetailView.as_view({'get': 'retrieve'})),
     re_path(r'users/emails/?$', views.UserEmailView.as_view({'get': 'retrieve'})),
 
+    re_path(r'login/done/?$', LoginDoneView.as_view(), name='login_done'),
 ]

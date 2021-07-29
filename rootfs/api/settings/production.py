@@ -351,8 +351,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 
 # see: https://django-oauth-toolkit.readthedocs.io/en/latest/oidc.html?highlight=oidc.key#creating-rsa-private-key  # noqa
-OIDC_RSA_PRIVATE_KEY = base64.b64decode(os.environ.get('OIDC_RSA_PRIVATE_KEY')) \
-    if os.environ.get('OIDC_RSA_PRIVATE_KEY') else ''
+with open('/var/run/secrets/drycc/passport/oidc-rsa-private-key') as f:
+    OIDC_RSA_PRIVATE_KEY = f.read()
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
     "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
