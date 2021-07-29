@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os.path
 import tempfile
 import ldap
+import base64
 import dj_database_url
 
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
@@ -349,9 +350,9 @@ if LDAP_ENDPOINT:
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'static'))
 
-# see: https://django-oauth-toolkit.readthedocs.io/en/latest/oidc.html?highlight=oidc.key#creating-rsa-private-key
-with open('/etc/oidc.key') as f:
-    OIDC_RSA_PRIVATE_KEY = f.read()
+# see: https://django-oauth-toolkit.readthedocs.io/en/latest/oidc.html?highlight=oidc.key#creating-rsa-private-key  # noqa
+OIDC_RSA_PRIVATE_KEY = base64.b64decode(os.environ.get('OIDC_RSA_PRIVATE_KEY')) \
+    if os.environ.get('OIDC_RSA_PRIVATE_KEY') else ''
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
     "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,

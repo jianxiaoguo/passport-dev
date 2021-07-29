@@ -16,12 +16,29 @@ rbac.authorization.k8s.io/v1
 env:
 - name: "TZ"
   value: {{ .Values.time_zone | default "UTC" | quote }}
+- name: "DRYCC_CONTROLLER_DOMAIN"
+  value: drycc.{{ .Values.global.platform_domain }}
+- name: SOCIAL_AUTH_DRYCC_CONTROLLER_KEY
+  valueFrom:
+    secretKeyRef:
+      name: passport-creds
+      key: social-auth-drycc-controller-key
+- name: SOCIAL_AUTH_DRYCC_CONTROLLER_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: passport-creds
+      key: social-auth-drycc-controller-secret
+- name: OIDC_RSA_PRIVATE_KEY
+  valueFrom:
+    secretKeyRef:
+      name: passport-creds
+      key: odic-rsa-private-key
 {{- if (.Values.database_url) }}
 - name: DRYCC_DATABASE_URL
   valueFrom:
     secretKeyRef:
       name: passport-creds
-      key: database_url
+      key: database-url
 {{- else if eq .Values.global.database_location "on-cluster"  }}
 - name: DRYCC_DATABASE_USER
   valueFrom:
